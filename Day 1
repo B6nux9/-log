@@ -1,0 +1,63 @@
+704. 二分查找
+
+左闭右闭
+这种情况 left == right 依然有意义。并且比较的是right - 1的数值而非right本身。
+
+def search(self, nums: List[int], target: int) -> int:
+    left = 0
+    right = len(nums) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] > target:
+            right = mid - 1
+        else:
+            left = mid + 1
+          
+      return -1 
+
+
+27. 删除元素
+
+经典快慢指针题
+快指针到数组结尾，则遍历结束 (fast < len(nums))
+
+def removeElement(self, nums: List[int], val: int) -> int:
+    slow = fast = 0
+    nums_len = len(nums)
+
+    while fast < nums_len:
+        if nums[fast] != val:
+            nums[slow] = nums[fast]
+            slow += 1
+        fast += 1
+        
+    return slow
+
+
+977. 有序数组的平方 
+
+第一次没做出来
+双指针的第二根指针也可以从数组尾部开始
+当条件为left < right时，可能会造成最后一个元素没有被加入到result中，因此条件应该为left <= right
+
+def sortedSquares(self, nums: List[int]) -> List[int]:
+    nums_len = len(nums)
+    result = [0] * nums_len
+
+    left, right, i = 0, nums_len - 1, nums_len - 1
+
+    while left <= right:
+        if nums[left] * nums[left] > nums[right] * nums[right]:
+            result[i] = nums[left] * nums[left]
+            left += 1
+        else:
+            result[i] = nums[right] * nums[right]
+            right -= 1
+
+        i -= 1
+
+    return result
