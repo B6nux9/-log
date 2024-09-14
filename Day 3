@@ -1,0 +1,89 @@
+203. 移除链表元素
+
+很经典的链表入门题，重点在于考察dummy的使用，同时要注意while loop的结束条件是cur.next而非cur，因为比较的是cur.next.val和val
+
+def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+    dummy = ListNode(next = head)
+    cur = dummy
+
+    while cur.next:
+        if cur.next.val == val:
+            cur.next = cur.next.next
+        else:
+            cur = cur.next
+    
+    return dummy.next
+
+707. 设计链表
+
+同样经典的链表入门题，重点在于记得维护size
+class ListNode:
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+    
+
+class MyLinkedList:
+
+    def __init__(self):
+        self.dummy_head = ListNode()
+        self.size = 0
+
+    def get(self, index: int) -> int:
+        if index < 0 or index >= self.size:
+            return -1
+        
+        current = self.dummy_head.next
+        for i in range(index):
+            current = current.next
+
+        return current.val 
+
+    def addAtHead(self, val: int) -> None:
+        self.dummy_head.next = ListNode(val, self.dummy_head.next)
+        self.size += 1
+
+    def addAtTail(self, val: int) -> None:
+        current = self.dummy_head
+        while current.next:
+            current = current.next
+        
+        current.next = ListNode(val)
+
+        self.size += 1
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        if index < 0 or index > self.size:
+            return
+        
+        current = self.dummy_head
+        for i in range(index):
+            current = current.next
+        
+        current.next = ListNode(val, current.next)
+        self.size += 1
+
+    def deleteAtIndex(self, index: int) -> None:
+        if index < 0 or index >= self.size:
+            return
+
+        current = self.dummy_head
+        for i in range(index):
+            current = current.next
+        
+        current.next = current.next.next
+
+        self.size -= 1
+
+206. 反转链表
+
+今天三道题都很经典啊哈哈哈。我这道题用的双指针，重点是能想到新创建pre的思路，同时要用temp保留cur.next。另一个重点是while loop的循环结束的判断。
+def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    cur = head
+    pre = None
+    while cur:
+        temp = cur.next
+        cur.next = pre
+        pre = cur 
+        cur = temp 
+    return pre
