@@ -12,3 +12,6 @@ def reverseWords(self, s: str) -> str:
         right -= 1
 
     return " ".join(words)
+
+
+卡码网的题和189类似
