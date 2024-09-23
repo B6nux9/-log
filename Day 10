@@ -1,0 +1,104 @@
+232.用栈实现队列 
+
+双栈实现队列，一个栈储存入队列的值，另一个存放出去的
+
+class MyQueue:
+
+    def __init__(self):
+        self.stack_in = []
+        self.stack_out = []
+
+    def push(self, x: int) -> None:
+        self.stack_in.append(x)
+
+    def pop(self) -> int:
+        if self.empty():
+            return None
+        
+        if self.stack_out:
+            return self.stack_out.pop()
+        else:
+            for i in range(len(self.stack_in)):
+                self.stack_out.append(self.stack_in.pop())
+            return self.stack_out.pop()
+
+    def peek(self) -> int:
+        ans = self.pop()
+        self.stack_out.append(ans)
+        return ans
+
+    def empty(self) -> bool:
+        return not (self.stack_in or self.stack_out)
+
+
+225. 用队列实现栈 
+
+class MyStack:
+
+    def __init__(self):
+        self.queue_in = deque()
+        self.queue_out = deque()
+
+    def push(self, x: int) -> None:
+        self.queue_in.append(x)
+
+    def pop(self) -> int:
+        if self.empty():
+            return None
+
+        for i in range(len(self.queue_in) - 1):
+            self.queue_out.append(self.queue_in.popleft())
+        
+        self.queue_in, self.queue_out = self.queue_out, self.queue_in 
+        return self.queue_out.popleft()
+
+    def top(self) -> int:
+        if self.empty():
+            return None
+
+        for i in range(len(self.queue_in) - 1):
+            self.queue_out.append(self.queue_in.popleft())
+        
+        self.queue_in, self.queue_out = self.queue_out, self.queue_in 
+        temp = self.queue_out.popleft()   
+        self.queue_in.append(temp)
+        return temp
+
+    def empty(self) -> bool:
+        return len(self.queue_in) == 0
+
+
+ 20. 有效的括号 
+
+分析好三种False情况，分别是右边多了，没对上，还有左边多了
+
+def isValid(self, s: str) -> bool:
+    stack = []
+    for item in s:
+        if item == '(':
+            stack.append(')')
+        elif item == '[':
+            stack.append(']')
+        elif item == '{':
+            stack.append('}')
+        elif not stack or stack[-1] != item:
+            return False
+        else:
+            stack.pop()
+        
+    return True if not stack else False
+
+
+1047. 删除字符串中的所有相邻重复项 
+
+和上题类似，依次遍历，用stack记录，如果和stack尾端一样则pop，不一样则入栈
+
+def removeDuplicates(self, s: str) -> str:
+    res = list()
+    for item in s:
+        if res and res[-1] == item:
+            res.pop()
+        else:
+            res.append(item)
+    
+    return "".join(res)
